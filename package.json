@@ -14,5 +14,19 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fabscg/less-face-more-books.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Fabscg/less-face-more-books/issues"
+  },
+  "homepage": "https://github.com/Fabscg/less-face-more-books#readme",
+  "dependencies": {
+    "apollo-server-core": "^3.6.4",
+    "apollo-server-express": "^2.25.3",
+    "express": "^4.17.3",
+    "graphql": "^15.8.0"
   }
 }
