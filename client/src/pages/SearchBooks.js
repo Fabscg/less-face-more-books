@@ -1,9 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
-
-import Auth from '../utils/auth';
+import React, { useEffect, useState } from 'react';
+import {
+  Jumbotron,
+  Container,
+  Col,
+  Form,
+  Button,
+  Card,
+  CardColumns,
+} from 'react-bootstrap';
+import Auth from '../utils/auth'
 import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { SAVE_BOOK } from '../utils/mutations'
+import { useMutation } from '../utils/mutations';
+
+
+
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -65,12 +77,10 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
+      //const response = await saveBook(bookToSave, token);
+      const { data } = await saveBook({
+        variables: { input: bookToSave },
+      });
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
@@ -78,10 +88,12 @@ const SearchBooks = () => {
     }
   };
 
+
   return (
     <>
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
+
           <h1>Search for Books!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
@@ -127,10 +139,12 @@ const SearchBooks = () => {
                       disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
                       className='btn-block btn-info'
                       onClick={() => handleSaveBook(book.bookId)}>
-                      {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
+                      {savedBookIds?.some((savedBookId) => savedBookId === book.bookId
+                      )
                         ? 'This book has already been saved!'
                         : 'Save this Book!'}
                     </Button>
+
                   )}
                 </Card.Body>
               </Card>
@@ -141,5 +155,6 @@ const SearchBooks = () => {
     </>
   );
 };
+
 
 export default SearchBooks;

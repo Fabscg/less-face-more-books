@@ -1,19 +1,15 @@
-import {
-    GraphQList,
-    GraphQLNonNull,
-} from 'graphql';
-import { isEmail } from 'validator';
-import { createUser } from '../..operation/users-operations';
-import CreateUserPayload from './CreateUserPayload'
+//import the gql tagged  template function
 
 const { gql } = require('apollo-server-express');
-
-
 
 
 const typeDefs = gql`
   type Query{
     me:User
+    users:[User]
+    user(username:String!): User
+    books(username:String): [Book]
+    book(_id:ID!): Book
 }
 
   type User{
@@ -21,15 +17,9 @@ const typeDefs = gql`
     username: String
     email: String
     bookCount: Int
-    saveBooks: (username:String!)[Book]
+    savedBooks: [Book]
   }
-type Mutation{
-    login(email:String!, password:String!): Auth
-    addUser(username:String!, email:String!, password:String!): Auth
-    saveBook:[Book]
-    removeBook: (bookId:ID, username:String!
-}
-type Book{
+  type Book{
     bookId:ID
     authors:[String!]
     description:String
@@ -37,6 +27,14 @@ type Book{
     image:String
     link:String!
 }
+type Mutation{
+  setMessage(message: String): String
+    login(email:String!, password:String!): Auth
+    addUser(username:String!, email:String!, password:String!): Auth
+    saveBook(title:String, description:String,  link:String, bookId: ID!, bookId:ID! ): User
+    removeBook(bookId:ID!): User
+}
+
 type Auth{
     token:ID!
     user:User
@@ -45,8 +43,6 @@ type Auth{
 
 module.exports = typeDefs;
 
-
-module.expors = typeDefs;
 
 
 
